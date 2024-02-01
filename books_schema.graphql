@@ -1,0 +1,31 @@
+type Author {
+  id: Int!
+  name: String!
+  books: [Book!]!
+}
+
+type Book {
+  id: Int!
+  title: String!
+
+  """Get a list of authors."""
+  authors(orderBy: String! = "name", reverse: Boolean! = false): [Author!]!
+}
+
+type Mutation {
+  addBook(id: Int!, title: String!, authors: [Int!]!): Book
+  updateBook(id: Int!, title: String = null, authors: [Int!] = null): Book
+  deleteBook(id: Int!): Book
+  deleteAllBooks: Void
+  resetBooks: Void
+}
+
+type Query {
+  books: [Book!]!
+
+  """Get a list of authors."""
+  authors(orderBy: String! = "name", reverse: Boolean! = false, name: String = null): [Author!]!
+}
+
+"""Represents NULL values"""
+scalar Void
