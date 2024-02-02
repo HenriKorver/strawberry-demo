@@ -6,8 +6,8 @@ from datetime import date
 def get_books_for_author(root: "Author") -> typing.List["Book"]:
     books = []
     for book in book_data:
-        if root.id in book["authors"]:
-            # books.append(Book(id=book["id"], title=book["title"])) ZZZZZZZZ
+        if root.id in book["author_ids"]:
+            # books.append(Book(id=book["id"], title=book["title"]))
             books.append(Book(**book))
     return books
 
@@ -21,14 +21,15 @@ class Author:
 class Book:
     id: int
     title: str
-    publish_date: date
+    # publish_date: date | None
+    author_ids: typing.List[int]
 
     @strawberry.field(description="Get a list of authors.")
     def authors(self, order_by: str = "name", reverse: bool = False) -> typing.List["Author"]:
         authors = []
         for book in book_data:
             if self.id == book["id"]:
-                for author_id in book["authors"]:
+                for author_id in book["author_ids"]:
                     for author in author_data:
                         if author_id == author["id"]:
                             authors.append(Author(id=author["id"], name=author["name"]))
@@ -36,12 +37,11 @@ class Book:
         return authors 
 
 
-
 def get_authors_for_book(root: "Book") -> typing.List["Author"]:
     authors = []
     for book in book_data:
         if root.id == book["id"]:
-            for author_id in book["authors"]:
+            for author_id in book["author_ids"]:
                 for author in author_data:
                     if author_id == author["id"]:
                         authors.append(Author(id=author["id"], name=author["name"]))
@@ -49,7 +49,7 @@ def get_authors_for_book(root: "Book") -> typing.List["Author"]:
 
 
 def get_books(root) -> typing.List[Book]:
-    return [Book(id=item["id"], title=item["title"], ) for item in book_data]
+    return [Book(**item) for item in book_data]
 
 @strawberry.type
 class Query:
@@ -95,32 +95,50 @@ def update_book(id, title, authors):
 class Mutation:
 
     @strawberry.mutation
-    def add_book(self, id: int, title: str, authors: typing.List[int]) -> Book | None:
+    def add_book(
+        self, 
+        id: int, 
+        title: str, 
+        # publish_date: typing.Optional[date] = None, 
+        author_ids: typing.List[int] = []
+        ) -> Book | None:
         if not book_id_exists(id):
             book = {
                 "id": id,
                 "title": title,
-                "authors": authors
+                # "publish_date": publish_date,
+                "author_ids": author_ids
             }
             book_data.append(book)
-            return Book(id=id, title=title)     
+            return Book(**book)     
         else:
             return None 
         
     @strawberry.mutation
-    def update_book(self, id: int, title: typing.Optional[str] = None, authors: typing.Optional[typing.List[int]] = None ) -> Book | None:
+    def update_book(
+        self, 
+        id: int, 
+        title: typing.Optional[str] = None, 
+        # publish_date: date | None = None,
+        author_ids: typing.Optional[typing.List[int]] = []
+        ) -> Book | None:
+        
         index = index_book(id)
         if index > -1 and title != None: 
             '''
             uiteindelij als title = None de title ophalen uit book_data, 
             nu wordt de update gewoon niet uitgevoerd.
             '''
-            book_data[index] = {
+            updated_book = {
                 "id": id,
                 "title": title,
-                "authors": authors
+                # "publish_date": publish_date,
+                "author_ids": author_ids
             }
-            return Book(id=id, title=title)
+
+            book_data[index] = updated_book
+
+            return Book(**updated_book)
         else:
             return None
     
@@ -129,7 +147,7 @@ class Mutation:
         index = index_book(id)
         if index > -1:
             book_row = book_data[index]
-            book = Book(id=id, title=book_row["title"])
+            book = Book(**book_row)
             book_data.pop(index)
             return book
         else:

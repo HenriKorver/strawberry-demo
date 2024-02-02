@@ -1,5 +1,5 @@
 '''
-source virtualenv/Scripts/activate (in git bash)
+source virtualenv/Scripts/activate
 strawberry server books
 http://127.0.0.1:8000/graphql
 strawberry export-schema books5:schema > books5_schema.graphql
