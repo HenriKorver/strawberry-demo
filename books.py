@@ -21,6 +21,7 @@ class Author:
 class Book:
     id: int
     title: str
+    year: int | None
     # publish_date: date | None
     author_ids: typing.List[int]
 
@@ -68,6 +69,14 @@ class Query:
         authors = list(filter(lambda x: matches(x, filters), authors))
         authors.sort(key=lambda x: getattr(x, order_by),reverse=reverse)
         return authors
+    
+    @strawberry.field
+    def author_by_id(self, id: int) -> Author | None:
+        for author in author_data:
+            if author["id"] == id:
+                return Author(**author)
+        return None
+
 
     books: typing.List[Book] = strawberry.field(resolver=get_books)
 
@@ -83,13 +92,13 @@ def index_book(id: int) -> int:
             return i
     return -1
 
-def update_book(id, title, authors):
-    index = index_book(id)
-    if index > -1:
-        book_data[index] = {
-            "title": title,
-            "authors": authors
-        }
+# def update_book(id, title, authors):
+#     index = index_book(id)
+#     if index > -1:
+#         book_data[index] = {
+#             "title": title,
+#             "authors": authors
+#         }
 
 @strawberry.type
 class Mutation:
@@ -99,6 +108,7 @@ class Mutation:
         self, 
         id: int, 
         title: str, 
+        year: int | None = None,
         # publish_date: typing.Optional[date] = None, 
         author_ids: typing.List[int] = []
         ) -> Book | None:
@@ -107,6 +117,7 @@ class Mutation:
                 "id": id,
                 "title": title,
                 # "publish_date": publish_date,
+                "year": year,
                 "author_ids": author_ids
             }
             book_data.append(book)
@@ -119,26 +130,39 @@ class Mutation:
         self, 
         id: int, 
         title: typing.Optional[str] = None, 
-        # publish_date: date | None = None,
-        author_ids: typing.Optional[typing.List[int]] = []
+        year: typing.Optional[int] = None, 
+        author_ids: typing.Optional[typing.List[int]] = None
         ) -> Book | None:
         
         index = index_book(id)
-        if index > -1 and title != None: 
+        if index > -1: 
             '''
-            uiteindelij als title = None de title ophalen uit book_data, 
+            uiteindelijk als title = None de title ophalen uit book_data, 
             nu wordt de update gewoon niet uitgevoerd.
             '''
-            updated_book = {
-                "id": id,
-                "title": title,
-                # "publish_date": publish_date,
-                "author_ids": author_ids
-            }
+            old_book = book_data[index]
 
-            book_data[index] = updated_book
+            if title != None:
+                book_data[index]["title"] = title
+            
+            if year != None:
+                book_data[index]["year"] = year
 
-            return Book(**updated_book)
+            if author_ids != None:
+                book_data[index]["author_ids"] = author_ids
+            
+
+            # updated_book = {
+            #     "id": id,
+            #     "title": title,
+            #     "year": year,
+            #     "author_ids": author_ids
+            # }
+
+            # book_data[index] = updated_book
+
+            # return Book(**updated_book)
+            return Book(**book_data[index])
         else:
             return None
     

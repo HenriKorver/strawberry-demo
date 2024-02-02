@@ -7,6 +7,7 @@ strawberry export-schema books5:schema > books5_schema.graphql
 
 '''
 To do:
+- Een book en author zoeken op id
 - Paginering
 - addAuthor operatie toevoegen
 - publish date en geboortedatum toevoegen
