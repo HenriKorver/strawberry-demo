@@ -4,21 +4,25 @@ book_data= [
     {
         "id": 1,
         "title": "De Aanslag",
+        "publish_date": None
         "authors": [1]
     },
     {
         "id": 2,
         "title": "De Donkere Kamer van Damocles",
+        "publish_date": None
         "authors": [2]
     },
     {
         "id": 3,
         "title": "Nooit meer slapen",
+        "publish_date": None
         "authors": [2]
     },
     {
         "id": 4,
         "title": "Theorie van het schaakspel: Het middenspel 1",
+        "publish_date": None
         "authors": [3,4]
     }
 ]

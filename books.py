@@ -1,42 +1,27 @@
 import typing
 import strawberry
 from data import book_data, author_data, book_data_backup
-
-# source virtualenv/Scripts/activate (in git bash)
-# strawberry server books
-# http://127.0.0.1:8000/graphql
-# strawberry export-schema books5:schema > books5_schema.graphql
-
-"""
-To do:
-- Paginering
-- addAuthor operatie toevoegen
-- publish date en geboortedatum toevoegen
-- expand mechanisme uitwerken (in graphql is dotnotatie niet nodig)
-"""
+from datetime import date
 
 def get_books_for_author(root: "Author") -> typing.List["Book"]:
     books = []
     for book in book_data:
         if root.id in book["authors"]:
-            books.append(Book(id=book["id"], title=book["title"]))
+            # books.append(Book(id=book["id"], title=book["title"])) ZZZZZZZZ
+            books.append(Book(**book))
     return books
 
 @strawberry.type
 class Author:
-
     id: int
-
     name: str
-
     books: typing.List["Book"] = strawberry.field(resolver=get_books_for_author)
 
 @strawberry.type
 class Book:
-
     id: int
-
     title: str
+    publish_date: date
 
     @strawberry.field(description="Get a list of authors.")
     def authors(self, order_by: str = "name", reverse: bool = False) -> typing.List["Author"]:
@@ -52,8 +37,6 @@ class Book:
 
 
 
-
-
 def get_authors_for_book(root: "Book") -> typing.List["Author"]:
     authors = []
     for book in book_data:
@@ -66,7 +49,7 @@ def get_authors_for_book(root: "Book") -> typing.List["Author"]:
 
 
 def get_books(root) -> typing.List[Book]:
-    return [Book(id=item["id"], title=item["title"]) for item in book_data]
+    return [Book(id=item["id"], title=item["title"], ) for item in book_data]
 
 @strawberry.type
 class Query:
@@ -127,7 +110,11 @@ class Mutation:
     @strawberry.mutation
     def update_book(self, id: int, title: typing.Optional[str] = None, authors: typing.Optional[typing.List[int]] = None ) -> Book | None:
         index = index_book(id)
-        if index > -1 and title != None: #uiteindelijk moeten we als title = None de title ophalen uit book_data, nu wordt de update gewoon niet uitgevoerd.
+        if index > -1 and title != None: 
+            '''
+            uiteindelij als title = None de title ophalen uit book_data, 
+            nu wordt de update gewoon niet uitgevoerd.
+            '''
             book_data[index] = {
                 "id": id,
                 "title": title,
@@ -167,30 +154,7 @@ def matches(item, filters):
     The match is case insensitive.
     This demo only supports filtering by string fields.
     """
-
-
     for attr_name, val in filters.items():
         if val.lower() not in getattr(item, attr_name).lower():
             return False
     return True
-
-# query = """
-#         query Authors {
-#             authors (orderBy: "id") {
-#                 name
-#                 books {
-#                     title
-#                 }
-#             }
-#         }
-#     """
-
-# result = schema.execute_sync(
-#         query)
-
-# print(result.errors)
-
-# print(result.data)
-
-# q = Query()
-# q.authors()
