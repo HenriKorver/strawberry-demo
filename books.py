@@ -22,7 +22,6 @@ class Book:
     id: int
     title: str
     year: int | None
-    # publish_date: date | None
     author_ids: typing.List[int]
 
     @strawberry.field(description="Get a list of authors.")

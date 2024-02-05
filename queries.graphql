@@ -1,0 +1,65 @@
+query GetBooks {
+  books {
+    id
+    title
+    year
+    authorIds
+  }
+}
+
+query GetAuthors {
+  authors(orderBy: "id") {
+    id
+    name
+  }
+}
+
+query AuthorById {
+  authorById(id: 2) {
+    id
+    name
+  }
+}
+
+mutation AddBook {
+  addBook(id: 5, title: "Praktische schaaklessen", year: 1977, authorIds: [3]) {
+    id
+    title
+    year
+  }
+}
+
+mutation UpdateBook {
+  updateBook(
+    id: 5
+    title: "Praktische schaaklessen"
+    year: 1977
+    authorIds: [2, 3]
+  ) {
+    id
+    title
+    year
+    authors {
+      name
+    }
+  }
+}
+
+mutation DeleteBookById {
+  deleteBook(id: 6) {
+    id
+    title
+    year
+    authors {
+      name
+    }
+  }
+}
+
+mutation DeleteAllBooks {
+  deleteAllBooks
+}
+
+mutation ResetBooks {
+  resetBooks
+}
