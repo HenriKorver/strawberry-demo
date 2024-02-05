@@ -1,0 +1,20 @@
+import typing
+import strawberry
+from data import book_data, author_data, book_data_backup
+from datetime import date
+
+@strawberry.type
+class Query:
+
+    @strawberry.field(description="Get a list of authors.")
+    def authors(
+        self, 
+        order_by: str = "name",
+        reverse: bool = False,
+        name: str | None = None,
+    ) -> List[Author]
+    
+    @strawberry.field
+    def author_by_id(self, id: int) -> Author | None
+
+    books: typing.List[Book] = strawberry.field(resolver=get_books)
