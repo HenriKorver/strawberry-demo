@@ -4,19 +4,19 @@ book_data= [
     {
         "id": 1,
         "title": "De Aanslag",
-        "year": 1980,
+        "year": 1982,
         "author_ids": [1]
     },
     {
         "id": 2,
         "title": "De Donkere Kamer van Damocles",
-        "year": 1980,
+        "year": 1958,
         "author_ids": [2]
     },
     {
         "id": 3,
         "title": "Nooit meer slapen",
-        "year": 1980,
+        "year": 1966,
         "author_ids": [2]
     },
     {
