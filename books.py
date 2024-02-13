@@ -39,17 +39,6 @@ class Book:
         return authors 
 
 
-# def get_authors_for_book(root: "Book") -> typing.List["Author"]:
-#     authors = []
-#     for book in book_data:
-#         if root.id == book["id"]:
-#             for author_id in book["author_ids"]:
-#                 for author in author_data:
-#                     if author_id == author["id"]:
-#                         authors.append(Author(id=author["id"], name=author["name"]))
-#     return authors
-
-
 def get_books(root) -> typing.List[Book]:
     return [Book(**item) for item in book_data]
 
