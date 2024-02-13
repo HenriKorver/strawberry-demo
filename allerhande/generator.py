@@ -5,3 +5,6 @@ for i in mygenerator:
 myList = [x*x for x in range(3)]
 for i in myList:
     print(i)
+
+
+list()

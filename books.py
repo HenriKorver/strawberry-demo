@@ -2,6 +2,7 @@ import typing
 import strawberry
 from data import book_data, author_data, book_data_backup
 from datetime import date
+import time
 
 def get_books_for_author(root: "Author") -> typing.List["Book"]:
     books = []
@@ -26,6 +27,7 @@ class Book:
 
     @strawberry.field(description="Get a list of authors.")
     def authors(self, order_by: str = "name", reverse: bool = False) -> typing.List["Author"]:
+        time.sleep(1) # simulate that authors live in a different system
         authors = []
         for book in book_data:
             if self.id == book["id"]:
@@ -37,15 +39,15 @@ class Book:
         return authors 
 
 
-def get_authors_for_book(root: "Book") -> typing.List["Author"]:
-    authors = []
-    for book in book_data:
-        if root.id == book["id"]:
-            for author_id in book["author_ids"]:
-                for author in author_data:
-                    if author_id == author["id"]:
-                        authors.append(Author(id=author["id"], name=author["name"]))
-    return authors
+# def get_authors_for_book(root: "Book") -> typing.List["Author"]:
+#     authors = []
+#     for book in book_data:
+#         if root.id == book["id"]:
+#             for author_id in book["author_ids"]:
+#                 for author in author_data:
+#                     if author_id == author["id"]:
+#                         authors.append(Author(id=author["id"], name=author["name"]))
+#     return authors
 
 
 def get_books(root) -> typing.List[Book]:
