@@ -82,14 +82,6 @@ def index_book(id: int) -> int:
             return i
     return -1
 
-# def update_book(id, title, authors):
-#     index = index_book(id)
-#     if index > -1:
-#         book_data[index] = {
-#             "title": title,
-#             "authors": authors
-#         }
-
 @strawberry.type
 class Mutation:
 
@@ -141,17 +133,6 @@ class Mutation:
             if author_ids != None:
                 book_data[index]["author_ids"] = author_ids
             
-
-            # updated_book = {
-            #     "id": id,
-            #     "title": title,
-            #     "year": year,
-            #     "author_ids": author_ids
-            # }
-
-            # book_data[index] = updated_book
-
-            # return Book(**updated_book)
             return Book(**book_data[index])
         else:
             return None
