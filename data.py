@@ -4,22 +4,26 @@ book_data= [
     {
         "id": 1,
         "title": "De Aanslag",
-        "authors": [1]
+        "year": 1982,
+        "author_ids": [1]
     },
     {
         "id": 2,
         "title": "De Donkere Kamer van Damocles",
-        "authors": [2]
+        "year": 1958,
+        "author_ids": [2]
     },
     {
         "id": 3,
         "title": "Nooit meer slapen",
-        "authors": [2]
+        "year": 1966,
+        "author_ids": [2]
     },
     {
         "id": 4,
         "title": "Theorie van het schaakspel: Het middenspel 1",
-        "authors": [3,4]
+        "year": 1977,
+        "author_ids": [3,4]
     }
 ]
 

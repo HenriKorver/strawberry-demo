@@ -1,0 +1,23 @@
+query AuthorDeepExpand {
+  authorById(id: 4 ) {
+    id
+    name
+    books {
+      title
+      authors (orderBy: "name") {
+        name
+        books {
+          title
+          authors {
+            name
+            books {
+              title
+              year
+            }
+          }
+        }
+      }
+    }
+  }
+
+}

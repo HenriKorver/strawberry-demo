@@ -7,14 +7,16 @@ type Author {
 type Book {
   id: Int!
   title: String!
+  year: Int
+  authorIds: [Int!]!
 
   """Get a list of authors."""
   authors(orderBy: String! = "name", reverse: Boolean! = false): [Author!]!
 }
 
 type Mutation {
-  addBook(id: Int!, title: String!, authors: [Int!]!): Book
-  updateBook(id: Int!, title: String = null, authors: [Int!] = null): Book
+  addBook(id: Int!, title: String!, year: Int = null, authorIds: [Int!]! = []): Book
+  updateBook(id: Int!, title: String = null, year: Int = null, authorIds: [Int!] = null): Book
   deleteBook(id: Int!): Book
   deleteAllBooks: Void
   resetBooks: Void
@@ -25,6 +27,7 @@ type Query {
 
   """Get a list of authors."""
   authors(orderBy: String! = "name", reverse: Boolean! = false, name: String = null): [Author!]!
+  authorById(id: Int!): Author
 }
 
 """Represents NULL values"""
