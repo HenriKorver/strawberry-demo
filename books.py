@@ -208,30 +208,30 @@ class Mutation:
 
 schema = strawberry.Schema(query=Query, mutation=Mutation)
 
-# m = Mutation()
-# book = m.update_book(title="De laatste roker", year=1980, author_ids=[3])
+m = Mutation()
+book = m.update_book(title="De laatste roker", year=1980, author_ids=[3])
 
 
 
-query = """
-    mutation UpdateBook {
-        updateBook(title: "De laatste roker", year: 1980, authorIds: [3]) {
-            id
-            title
-            year
-            authors {
-                name
-            }
-        }
-    }
-"""
+# query = """
+#     mutation UpdateBook {
+#         updateBook(title: "De laatste roker", year: 1980, authorIds: [3]) {
+#             id
+#             title
+#             year
+#             authors {
+#                 name
+#             }
+#         }
+#     }
+# """
 
-result = schema.execute_sync(
-        query)
+# result = schema.execute_sync(
+#         query)
 
-print(result.errors)
+# print(result.errors)
 
-print(result.data)
+# print(result.data)
 
 
 
