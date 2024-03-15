@@ -1,0 +1,9 @@
+- row functie herschrijven naar **
+- paginagrootte opnemen in result.
+- cursor based paginering implementeren
+- een pagina argument toevoegen aan query books_paginated en 
+    uitrekenen naar welke pagina je wilt springen
+- Aan Joeri vragen welle vorm van paginering ZGW gebruikt: offset/limit of cursor-based
+    Want als je de count eruit haalt heeft de parameter "pagina" niet zoveel zin meer.
+- Ga deze folder structuur reorganiseren met modules en packages en laat je inspireren
+ door de github van arjancodes.
