@@ -5,7 +5,8 @@ from datetime import date
 import time
 from enum import Enum
 from pagination_window import Item, PaginationWindow
-from type import Book, Author
+from books import Book
+from authors import Author
 
 
 """ FUNCTIONS """
