@@ -5,7 +5,7 @@ from datetime import date
 import time
 from enum import Enum
 from type import Book, Author
-from query_helper import *
+from functions import *
 from pagination_window import PaginationWindow
 
 @strawberry.type
