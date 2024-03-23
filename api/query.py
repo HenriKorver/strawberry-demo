@@ -4,7 +4,8 @@ from data import book_data, author_data, book_data_backup
 from datetime import date
 import time
 from enum import Enum
-from type import Book, Author
+from books import Book
+from authors import Author
 from functions import *
 from pagination_window import PaginationWindow
 

@@ -1,6 +1,6 @@
 import strawberry
 from typing import List, Optional, Union
-from type import Book, Category
+from books import Book, Category
 from data import book_data, book_data_backup
 from functions import new_book_id, index_book
 
